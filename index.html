@@ -16,9 +16,10 @@
             min-height: 100vh;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             color: #fff;
+            overflow-y: auto;
             overflow-x: hidden;
-            padding-top: 40px;
-            padding-bottom: 180px;
+            padding-top: 30px;
+            padding-bottom: 140px;
             position: relative;
         }
 
@@ -38,7 +39,7 @@
             pointer-events: none;
         }
 
-        /* Container Utama */
+        /* Container Utama - Flexbox rapi & anti tumpuk */
         .bubbles-container {
             position: relative;
             max-width: 1200px;
@@ -47,7 +48,8 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 25px;
+            align-items: center;
+            gap: 30px;
             z-index: 1;
         }
 
@@ -59,57 +61,61 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 25px;
+            padding: 28px;
             color: #ffffff;
-            font-size: 13px;
-            line-height: 1.4;
-            backdrop-filter: blur(2px);
+            backdrop-filter: blur(3px);
             position: relative;
             cursor: pointer;
             box-shadow: 
                 inset 0 20px 30px rgba(255, 255, 255, 0.2),
                 inset 10px 0 30px rgba(0, 0, 0, 0.3),
                 inset -10px 0 30px rgba(0, 0, 0, 0.3);
-            animation: spawn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, float 6s ease-in-out infinite alternate;
-            word-break: break-word;
-            transition: transform 0.2s, box-shadow 0.2s;
+            animation: spawn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, float 6s ease-in-out infinite alternate;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
+            overflow: hidden;
         }
 
         .bubble:hover {
-            transform: scale(1.05) !important;
+            transform: scale(1.1) !important;
             z-index: 10;
         }
 
-        /* Efek Kilau Atas Bubble */
         .bubble::after {
             content: "";
             position: absolute;
-            top: 5%;
-            left: 20%;
-            width: 60%;
-            height: 20%;
-            background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0));
+            top: 6%;
+            left: 22%;
+            width: 55%;
+            height: 18%;
+            background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0));
             border-radius: 50%;
-            transform: rotate(-5deg);
+            transform: rotate(-8deg);
             pointer-events: none;
         }
 
         .bubble-text {
             font-weight: 500;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            width: 100%;
             display: -webkit-box;
-            -webkit-line-clamp: 4; /* Potong text biar rapi di gelembung */
+            -webkit-line-clamp: 4;
             -webkit-box-orient: vertical;  
             overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.3;
         }
 
         .bubble-name {
             font-size: 11px;
             opacity: 0.8;
             font-style: italic;
+            max-width: 90%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        /* Panel Kontrol & Form di Bawah */
+        /* Panel Kontrol bawah */
         .footer-form-panel {
             position: fixed;
             bottom: 0;
@@ -118,49 +124,98 @@
             background: linear-gradient(transparent, rgba(5, 2, 18, 0.98) 25%);
             padding: 20px;
             z-index: 100;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
         }
 
-        /* Deretan Pilihan Emoji */
-        .emoji-bar {
-            display: flex;
-            gap: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 8px 18px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            max-width: 800px;
-            width: 100%;
-            justify-content: center;
-            overflow-x: auto;
-        }
-
-        .emoji-select {
-            font-size: 22px;
-            cursor: pointer;
-            transition: transform 0.1s;
-            user-select: none;
-        }
-
-        .emoji-select:hover {
-            transform: scale(1.3);
-        }
-
-        /* Bar Input Teks & Nama */
         .form-container {
             max-width: 800px;
             width: 100%;
-            background: rgba(15, 10, 35, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Tombol Trigger Emoji */
+        .emoji-trigger-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            font-size: 20px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .emoji-trigger-btn:hover {
+            background: rgba(100, 43, 242, 0.3);
+            border-color: #642bf2;
+            transform: scale(1.05);
+        }
+
+        /* Popover Grid 3x5 */
+        .emoji-popover {
+            position: absolute;
+            bottom: 64px;
+            left: 0;
+            background: rgba(18, 12, 42, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 12px;
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.8);
+            display: none;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8px;
+            z-index: 110;
+            animation: popUp 0.2s ease-out;
+        }
+
+        .emoji-popover.active {
+            display: grid;
+        }
+
+        .emoji-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 22px;
+            padding: 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            user-select: none;
+            text-align: center;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .emoji-item:hover {
+            background: #642bf2;
+            transform: scale(1.15);
+        }
+
+        /* Wrapper Input Form */
+        .input-fields-wrapper {
+            flex: 1;
+            background: rgba(15, 10, 35, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 40px;
             display: flex;
             align-items: center;
             padding: 6px 10px 6px 20px;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
             gap: 10px;
         }
 
@@ -186,7 +241,7 @@
             padding: 10px 15px;
             border-radius: 20px;
             flex: 1;
-            max-width: 150px;
+            max-width: 130px;
         }
 
         .name-box::placeholder {
@@ -214,7 +269,7 @@
             box-shadow: 0 6px 20px rgba(100, 43, 242, 0.6);
         }
 
-        /* --- POP-UP MODAL DETAIL (SAAT BUBBLE DIKLIK) --- */
+        /* Pop-up detail modal */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -225,7 +280,7 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.25s ease forwards;
         }
 
         .modal-content {
@@ -238,7 +293,7 @@
             position: relative;
             box-shadow: 0 15px 50px rgba(0,0,0,0.7);
             transform: scale(0.8);
-            animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation: scaleUp 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
         .modal-text {
@@ -246,6 +301,7 @@
             line-height: 1.6;
             margin-bottom: 20px;
             white-space: pre-wrap;
+            word-break: break-word;
         }
 
         .modal-name {
@@ -260,7 +316,7 @@
             background: none;
             border: none;
             color: rgba(255,255,255,0.4);
-            font-size: 24px;
+            font-size: 26px;
             cursor: pointer;
         }
 
@@ -273,7 +329,7 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
-        /* --- KEYFRAMES ANIMASI --- */
+        /* Keyframes */
         @keyframes spawn {
             0% { transform: scale(0); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
@@ -281,8 +337,8 @@
 
         @keyframes float {
             0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-12px) rotate(1.5deg); }
-            100% { transform: translateY(12px) rotate(-1.5deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+            100% { transform: translateY(10px) rotate(-1deg); }
         }
 
         @keyframes fadeIn {
@@ -291,6 +347,11 @@
 
         @keyframes scaleUp {
             to { transform: scale(1); }
+        }
+
+        @keyframes popUp {
+            from { transform: translateY(10px) scale(0.95); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
         }
     </style>
 </head>
@@ -301,30 +362,35 @@
     <div class="footer-form-panel">
         <span class="hint-text">💡 Klik bubble mana saja untuk membaca versi lengkapnya</span>
         
-        <div class="emoji-bar">
-            <span class="emoji-select" onclick="insertEmoji('😊')">😊</span>
-            <span class="emoji-select" onclick="insertEmoji('✨')">✨</span>
-            <span class="emoji-select" onclick="insertEmoji('😭')">😭</span>
-            <span class="emoji-select" onclick="insertEmoji('❤️')">❤️</span>
-            <span class="emoji-select" onclick="insertEmoji('🚀')">🚀</span>
-            <span class="emoji-select" onclick="insertEmoji('🥳')">🥳</span>
-            <span class="emoji-select" onclick="insertEmoji('🥺')">🥺</span>
-            <span class="emoji-select" onclick="insertEmoji('👍')">👍</span>
-            <span class="emoji-select" onclick="insertEmoji('👏')">👏</span>
-            <span class="emoji-select" onclick="insertEmoji('🎉')">🎉</span>
-            <span class="emoji-select" onclick="insertEmoji('⭐')">⭐</span>
-            <span class="emoji-select" onclick="insertEmoji('🙌')">🙌</span>
-            <span class="emoji-select" onclick="insertEmoji('🔥')">🔥</span>
-            <span class="emoji-select" onclick="insertEmoji('😂')">😂</span>
-        </div>
-
         <div class="form-container">
-            <input type="text" class="input-box" id="wishInput" placeholder="Tulis ucapanmu di sini..." required>
-            <input type="text" class="name-box" id="nameInput" placeholder="Nama kamu" required>
-            <button class="send-btn" onclick="addBubble()">
-                Kirim 
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-            </button>
+            <button class="emoji-trigger-btn" id="emojiTrigger" onclick="toggleEmojiPopover(event)">😊</button>
+            
+            <div class="emoji-popover" id="emojiPopover" onclick="event.stopPropagation()">
+                <div class="emoji-item" onclick="insertEmoji('😊')">😊</div>
+                <div class="emoji-item" onclick="insertEmoji('✨')">✨</div>
+                <div class="emoji-item" onclick="insertEmoji('😭')">😭</div>
+                <div class="emoji-item" onclick="insertEmoji('❤️')">❤️</div>
+                <div class="emoji-item" onclick="insertEmoji('🚀')">🚀</div>
+                <div class="emoji-item" onclick="insertEmoji('🥳')">🥳</div>
+                <div class="emoji-item" onclick="insertEmoji('🥺')">🥺</div>
+                <div class="emoji-item" onclick="insertEmoji('👍')">👍</div>
+                <div class="emoji-item" onclick="insertEmoji('👏')">👏</div>
+                <div class="emoji-item" onclick="insertEmoji('🎉')">🎉</div>
+                <div class="emoji-item" onclick="insertEmoji('⭐')">⭐</div>
+                <div class="emoji-item" onclick="insertEmoji('🙌')">🙌</div>
+                <div class="emoji-item" onclick="insertEmoji('🔥')">🔥</div>
+                <div class="emoji-item" onclick="insertEmoji('😂')">😂</div>
+                <div class="emoji-item" onclick="insertEmoji('🤣')">🤣</div>
+            </div>
+
+            <div class="input-fields-wrapper">
+                <input type="text" class="input-box" id="wishInput" placeholder="Tulis ucapanmu di sini..." required>
+                <input type="text" class="name-box" id="nameInput" placeholder="Nama kamu" required>
+                <button class="send-btn" onclick="addBubble()">
+                    Kirim 
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -340,7 +406,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Firebase Config Asli dari Akunmu
         const firebaseConfig = {
             apiKey: "AIzaSyDwwunkJ6Ox1zKnEaPmuVz81LbeKLHnx1U",
             authDomain: "kogus-7176c.firebaseapp.com",
@@ -351,7 +416,6 @@
             appId: "1:955231066272:web:2f1a9fe038c7c1249411c5"
         };
 
-        // Inisialisasi Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const dbRef = ref(db, 'wishes');
@@ -369,23 +433,50 @@
         const modalOverlay = document.getElementById('modalOverlay');
         const modalText = document.getElementById('modalText');
         const modalName = document.getElementById('modalName');
+        const popover = document.getElementById('emojiPopover');
 
+        // Buka Tutup Panel Emoji
+        window.toggleEmojiPopover = function(e) {
+            e.stopPropagation();
+            popover.classList.toggle('active');
+        }
+
+        // Klik di luar panel buat nutup panel emoji
+        document.addEventListener('click', () => {
+            popover.classList.remove('active');
+        });
+
+        // Insert Emoji berkali-kali tanpa nutup otomatis
         window.insertEmoji = function(emoji) {
             const wishInput = document.getElementById('wishInput');
             wishInput.value += emoji;
             wishInput.focus();
         }
 
+        // Mengunci warna random berdasarkan text agar tidak berubah pas di-refresh
+        function getColorFromString(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const index = Math.abs(hash) % neonColors.length;
+            return neonColors[index];
+        }
+
         function createBubbleElement(text, name) {
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
 
-            // Ukuran acak gelembung (130px sampai 230px)
-            const size = Math.floor(Math.random() * 100) + 130;
+            const size = Math.floor(Math.random() * 100) + 140;
             bubble.style.width = `${size}px`;
             bubble.style.height = `${size}px`;
 
-            const color = neonColors[Math.floor(Math.random() * neonColors.length)];
+            let fontSize = 13;
+            if (text.length > 60) fontSize = 11;
+            if (text.length > 100) fontSize = 10;
+            bubble.style.fontSize = `${fontSize}px`;
+
+            const color = getColorFromString(text + name);
             
             bubble.style.background = `rgba(${color.r}, ${color.g}, ${color.b}, 0.15)`;
             bubble.style.border = `2px solid rgba(${color.r}, ${color.g}, ${color.b}, 0.6)`;
@@ -405,7 +496,6 @@
                 <div class="bubble-name"></div>
             `;
             
-            // Menggunakan textContent agar aman dari XSS script hack
             bubble.querySelector('.bubble-text').textContent = text;
             bubble.querySelector('.bubble-name').textContent = `— ${name}`;
 
@@ -418,7 +508,7 @@
 
         function openModal(text, name, color) {
             modalText.textContent = text;
-            modalName.textContent = `— dikirim oleh ${name}`;
+            modalName.textContent = `— ${name}`;
             
             const contentBox = modalOverlay.querySelector('.modal-content');
             contentBox.style.border = `2px solid rgba(${color.r}, ${color.g}, ${color.b}, 0.8)`;
@@ -431,7 +521,6 @@
             modalOverlay.style.display = 'none';
         }
 
-        // Kirim data ke Firebase Online
         window.addBubble = function() {
             const wishInput = document.getElementById('wishInput');
             const nameInput = document.getElementById('nameInput');
@@ -453,12 +542,9 @@
             });
         }
 
-        // Dengarkan perubahan data di Firebase (Realtime sync)
         onChildAdded(dbRef, (snapshot) => {
             const data = snapshot.val();
             const newBubble = createBubbleElement(data.text, data.name);
-            
-            // Selalu taruh gelembung baru paling depan atas
             container.insertBefore(newBubble, container.firstChild);
         });
     </script>
