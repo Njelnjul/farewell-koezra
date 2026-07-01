@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farewell Message Box ✨</title>
+    <title>Farewell Ko Gus✨</title>
     <style>
         :root {
             --bg-gradient: linear-gradient(135deg, #0f172a, #1e1b4b, #311042);
@@ -342,19 +342,19 @@
 <body>
 
     <div class="nav-container">
-        <button class="btn-nav active" onclick="switchScreen('form')">✍️ Tulis Ucapan</button>
-        <button class="btn-nav" onclick="switchScreen('bubbles')">🎈 Halaman Bubbles</button>
+        <button class="btn-nav active" onclick="switchScreen('form')">Kartu Ucapan</button>
+        <button class="btn-nav" onclick="switchScreen('bubbles')">Halaman Bubbles</button>
     </div>
 
     <div id="screen-form" class="screen active">
         <div class="form-card">
-            <h2>Farewell Wishes ❤️</h2>
-            <p>Tulis pesan terbaikmu. 1 pesan yang kamu kirim akan menjadi 1 bubble melayang indah.</p>
+            <h2>Farewell Ko Gus ❤️</h2>
+            <p>Tulis pesan buat ko Gus. Nanti terbang ke Halaman Bubbles.</p>
             
             <form id="messageForm" onsubmit="saveMessage(event)">
                 <div class="form-group">
                     <label for="senderName">Nama Kamu:</label>
-                    <input type="text" id="senderName" placeholder="Misal: Njel / Sahabatmu" required autocomplete="off">
+                    <input type="text" id="senderName" placeholder="Misal: Aaron" required autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="messageText">Pesan / Ucapan:</label>
@@ -366,7 +366,7 @@
     </div>
 
     <div id="screen-bubbles" class="screen">
-        <div class="bubble-instruction">Klik bubble-nya untuk baca versi lengkapnya ya! 🤫</div>
+        <div class="bubble-instruction">Klik bubble-nya untuk baca versi lengkapnya ya!</div>
     </div>
 
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
