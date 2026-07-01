@@ -3,549 +3,464 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farewell Ko Gus✨</title>
+    <title>Farewell Bubbles Wish - Live</title>
     <style>
-        :root {
-            --bg-gradient: linear-gradient(135deg, #0f172a, #1e1b4b, #311042);
-            --bubble-border: rgba(255, 255, 255, 0.45);
-            --text-color: #f8fafc;
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background: var(--bg-gradient);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background: radial-gradient(circle at center, #100a26 0%, #050212 100%);
             min-height: 100vh;
-            overflow: hidden;
-            color: var(--text-color);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            padding-top: 40px;
+            padding-bottom: 180px;
             position: relative;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* --- NAVIGATION --- */
-        .nav-container {
+        /* Efek bintang luar angkasa */
+        body::before {
+            content: "";
             position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 99;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            opacity: 0.4;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Container Utama */
+        .bubbles-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
             display: flex;
-            gap: 12px;
-            width: max-content;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            z-index: 1;
         }
 
-        .btn-nav {
-            padding: 10px 24px;
-            border: none;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .btn-nav.active, .btn-nav:hover {
-            background: #fff;
-            color: #1e1b4b;
-            transform: scale(1.05);
-            box-shadow: 0 4px 20px rgba(255,255,255,0.2);
-        }
-
-        /* --- SCREENS --- */
-        .screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .screen.active {
+        /* Styling Bubble Glossy */
+        .bubble {
+            border-radius: 50%;
             display: flex;
-            opacity: 1;
-        }
-
-        /* --- FORM INPUT --- */
-        #screen-form {
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-            z-index: 10;
-        }
-
-        .form-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 35px;
-            border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.15);
-            width: 100%;
-            max-width: 480px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             text-align: center;
-        }
-
-        .form-card h2 {
-            margin-bottom: 8px;
-            font-size: 26px;
-            background: linear-gradient(45deg, #ff007f, #7928ca);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .form-card p {
-            font-size: 14px;
-            color: #94a3b8;
-            margin-bottom: 25px;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #cbd5e1;
-        }
-
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(0, 0, 0, 0.3);
-            color: white;
-            font-size: 15px;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: #ec4899;
-            box-shadow: 0 0 12px rgba(236, 72, 153, 0.4);
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            background: linear-gradient(90deg, #a855f7, #ec4899);
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 5px;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.4);
-        }
-
-        /* --- BUBBLES FIELD --- */
- #screen-bubbles{
-    position:relative;
-    width:100%;
-    height:100vh;
-    overflow:hidden;
-}
-
-.bubble{
-    position:absolute;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:5;
-}
-
-        .bubble-instruction {
-            position: absolute;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.7);
-            padding: 8px 24px;
-            border-radius: 30px;
+            padding: 25px;
+            color: #ffffff;
             font-size: 13px;
-            pointer-events: none;
-            backdrop-filter: blur(4px);
-            z-index: 50;
-            border: 1px solid rgba(255,255,255,0.1);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        /* --- REALTIME STABLE FLOATING BUBBLE --- */
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.03) 65%, rgba(236, 72, 153, 0.08) 100%);
-            border: 1px solid var(--bubble-border);
-            box-shadow: inset -4px -4px 12px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.25);
+            line-height: 1.4;
+            backdrop-filter: blur(2px);
+            position: relative;
             cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 16px;
-            text-align: center;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s;
-            animation: gentleFloat 6s ease-in-out infinite alternate;
+            box-shadow: 
+                inset 0 20px 30px rgba(255, 255, 255, 0.2),
+                inset 10px 0 30px rgba(0, 0, 0, 0.3),
+                inset -10px 0 30px rgba(0, 0, 0, 0.3);
+            animation: spawn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, float 6s ease-in-out infinite alternate;
+            word-break: break-word;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .bubble:hover {
-            transform: scale(1.12) translateY(-5px) !important;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.45) 0%, rgba(168, 85, 247, 0.25) 70%);
-            border-color: #a855f7;
-            box-shadow: inset -4px -4px 12px rgba(0,0,0,0.15), 0 12px 25px rgba(168, 85, 247, 0.3);
+            transform: scale(1.05) !important;
+            z-index: 10;
         }
 
-        .bubble-content {
-            font-size: 11px;
-            line-height: 1.3;
-            color: #ffffff;
-            display: -webkit-box;
-            -webkit-line-clamp: 3; /* Potong teks maksimal 3 baris di dalam bulatannya */
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        /* Efek Kilau Atas Bubble */
+        .bubble::after {
+            content: "";
+            position: absolute;
+            top: 5%;
+            left: 20%;
+            width: 60%;
+            height: 20%;
+            background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0));
+            border-radius: 50%;
+            transform: rotate(-5deg);
             pointer-events: none;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+        }
+
+        .bubble-text {
             font-weight: 500;
-            word-break: break-word;
-            padding: 2px;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 4; /* Potong text biar rapi di gelembung */
+            -webkit-box-orient: vertical;  
+            overflow: hidden;
         }
 
-        @keyframes gentleFloat {
-            0% {
-                transform: translateY(0) translateX(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-15px) translateX(10px) rotate(2deg);
-            }
-            100% {
-                transform: translateY(5px) translateX(-10px) rotate(-2deg);
-            }
+        .bubble-name {
+            font-size: 11px;
+            opacity: 0.8;
+            font-style: italic;
         }
 
-        /* --- MODAL POPUP --- */
+        /* Panel Kontrol & Form di Bawah */
+        .footer-form-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(5, 2, 18, 0.98) 25%);
+            padding: 20px;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        /* Deretan Pilihan Emoji */
+        .emoji-bar {
+            display: flex;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            max-width: 800px;
+            width: 100%;
+            justify-content: center;
+            overflow-x: auto;
+        }
+
+        .emoji-select {
+            font-size: 22px;
+            cursor: pointer;
+            transition: transform 0.1s;
+            user-select: none;
+        }
+
+        .emoji-select:hover {
+            transform: scale(1.3);
+        }
+
+        /* Bar Input Teks & Nama */
+        .form-container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(15, 10, 35, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            padding: 6px 10px 6px 20px;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+            gap: 10px;
+        }
+
+        .input-box {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            flex: 2;
+        }
+
+        .input-box::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .name-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            flex: 1;
+            max-width: 150px;
+        }
+
+        .name-box::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .send-btn {
+            background: #642bf2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(100, 43, 242, 0.4);
+        }
+
+        .send-btn:hover {
+            background: #7a46f7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(100, 43, 242, 0.6);
+        }
+
+        /* --- POP-UP MODAL DETAIL (SAAT BUBBLE DIKLIK) --- */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.85);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(5, 2, 18, 0.85);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            display: flex;
+            z-index: 1000;
+            display: none;
             justify-content: center;
             align-items: center;
-            z-index: 999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
         }
 
         .modal-content {
-            background: linear-gradient(135deg, #1e1b4b, #311042);
-            padding: 35px;
-            border-radius: 24px;
+            background: #161036;
+            border-radius: 30px;
+            padding: 40px;
             max-width: 500px;
-            width: 90%;
+            width: 100%;
             text-align: center;
-            border: 2px solid rgba(236, 72, 153, 0.4);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
-            transform: scale(0.85);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: scale(1);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.7);
+            transform: scale(0.8);
+            animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
         .modal-text {
             font-size: 18px;
             line-height: 1.6;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             white-space: pre-wrap;
-            word-wrap: break-word;
-            color: #f1f5f9;
         }
 
-        .modal-sender {
-            font-size: 13px;
-            font-weight: 700;
-            color: #ec4899;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .btn-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
+        .modal-name {
             font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: #b3a4f7;
+            font-style: italic;
         }
-        .btn-close:hover {
-            background: rgba(255,255,255,0.2);
+
+        .close-btn {
+            position: absolute;
+            top: 15px; right: 20px;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.4);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: #fff;
+        }
+
+        .hint-text {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* --- KEYFRAMES ANIMASI --- */
+        @keyframes spawn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1.5deg); }
+            100% { transform: translateY(12px) rotate(-1.5deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+
+        @keyframes scaleUp {
+            to { transform: scale(1); }
         }
     </style>
 </head>
 <body>
 
-    <div class="nav-container">
-        <button class="btn-nav active" onclick="switchScreen('form')">Kartu Ucapan</button>
-        <button class="btn-nav" onclick="switchScreen('bubbles')">Halaman Bubbles</button>
-    </div>
+    <div class="bubbles-container" id="bubblesContainer"></div>
 
-    <div id="screen-form" class="screen active">
-        <div class="form-card">
-            <h2>Farewell Ko Gus ❤️</h2>
-            <p>Tulis pesan buat ko Gus. Nanti terbang ke Halaman Bubbles.</p>
-            
-            <form id="messageForm" onsubmit="saveMessage(event)">
-                <div class="form-group">
-                    <label for="senderName">Nama Kamu:</label>
-                    <input type="text" id="senderName" placeholder="Misal: Aaron" required autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="messageText">Pesan / Ucapan:</label>
-                    <textarea id="messageText" rows="5" placeholder="Ketik ucapan bebas seberapa panjang di sini..." required></textarea>
-                </div>
-                <button type="submit" class="btn-submit">Terbangkan Bubble ✨</button>
-            </form>
+    <div class="footer-form-panel">
+        <span class="hint-text">💡 Klik bubble mana saja untuk membaca versi lengkapnya</span>
+        
+        <div class="emoji-bar">
+            <span class="emoji-select" onclick="insertEmoji('😊')">😊</span>
+            <span class="emoji-select" onclick="insertEmoji('✨')">✨</span>
+            <span class="emoji-select" onclick="insertEmoji('😭')">😭</span>
+            <span class="emoji-select" onclick="insertEmoji('❤️')">❤️</span>
+            <span class="emoji-select" onclick="insertEmoji('🚀')">🚀</span>
+            <span class="emoji-select" onclick="insertEmoji('🥳')">🥳</span>
+            <span class="emoji-select" onclick="insertEmoji('🥺')">🥺</span>
+            <span class="emoji-select" onclick="insertEmoji('👍')">👍</span>
+            <span class="emoji-select" onclick="insertEmoji('👏')">👏</span>
+            <span class="emoji-select" onclick="insertEmoji('🎉')">🎉</span>
+            <span class="emoji-select" onclick="insertEmoji('⭐')">⭐</span>
+            <span class="emoji-select" onclick="insertEmoji('🙌')">🙌</span>
+            <span class="emoji-select" onclick="insertEmoji('🔥')">🔥</span>
+            <span class="emoji-select" onclick="insertEmoji('😂')">😂</span>
         </div>
-    </div>
 
-    <div id="screen-bubbles" class="screen">
-        <div class="bubble-instruction">Klik bubble-nya untuk baca versi lengkapnya ya!</div>
+        <div class="form-container">
+            <input type="text" class="input-box" id="wishInput" placeholder="Tulis ucapanmu di sini..." required>
+            <input type="text" class="name-box" id="nameInput" placeholder="Nama kamu" required>
+            <button class="send-btn" onclick="addBubble()">
+                Kirim 
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+        </div>
     </div>
 
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="btn-close" onclick="closeModal()">✕</button>
-            <p class="modal-text" id="modalText">Isi ucapan...</p>
-            <div class="modal-sender" id="modalSender">Dari: Seseorang</div>
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <div class="modal-text" id="modalText"></div>
+            <div class="modal-name" id="modalName"></div>
         </div>
     </div>
 
-    <script>
-        // Mengambil memori ucapan yang tersimpan
-        let messages = JSON.parse(localStorage.getItem('farewellMessages')) || [];
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        function switchScreen(screenType) {
-            document.querySelectorAll('.screen').forEach(s => {
-                s.classList.remove('active');
-                s.style.display = 'none'; 
-            });
-            document.querySelectorAll('.btn-nav').forEach(b => b.classList.remove('active'));
+        // Firebase Config Asli dari Akunmu
+        const firebaseConfig = {
+            apiKey: "AIzaSyDwwunkJ6Ox1zKnEaPmuVz81LbeKLHnx1U",
+            authDomain: "kogus-7176c.firebaseapp.com",
+            databaseURL: "https://kogus-7176c-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "kogus-7176c",
+            storageBucket: "kogus-7176c.firebasestorage.app",
+            messagingSenderId: "955231066272",
+            appId: "1:955231066272:web:2f1a9fe038c7c1249411c5"
+        };
 
-            if (screenType === 'form') {
-                const formScreen = document.getElementById('screen-form');
-                formScreen.style.display = 'flex';
-                setTimeout(() => formScreen.classList.add('active'), 10);
-                document.querySelectorAll('.btn-nav')[0].classList.add('active');
-            } else {
-                const bubbleScreen = document.getElementById('screen-bubbles');
-                bubbleScreen.style.display = 'flex';
-                setTimeout(() => bubbleScreen.classList.add('active'), 10);
-                document.querySelectorAll('.btn-nav')[1].classList.add('active');
-                renderBubbles(); 
-            }
+        // Inisialisasi Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const dbRef = ref(db, 'wishes');
+
+        const neonColors = [
+            { r: 236, g: 72, b: 153 },  // Pink
+            { r: 59, g: 130, b: 246 },  // Blue
+            { r: 168, g: 85, b: 247 },  // Purple
+            { r: 34, g: 197, b: 94 },   // Green
+            { r: 234, g: 179, b: 8 },   // Yellow
+            { r: 6, g: 182, b: 212 }    // Cyan
+        ];
+
+        const container = document.getElementById('bubblesContainer');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalText = document.getElementById('modalText');
+        const modalName = document.getElementById('modalName');
+
+        window.insertEmoji = function(emoji) {
+            const wishInput = document.getElementById('wishInput');
+            wishInput.value += emoji;
+            wishInput.focus();
         }
 
-        function saveMessage(e) {
-            e.preventDefault();
-            const nameInput = document.getElementById('senderName');
-            const textInput = document.getElementById('messageText');
+        function createBubbleElement(text, name) {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
 
-            const newMessage = {
-                id: Date.now(),
-                sender: nameInput.value.trim(),
-                text: textInput.value.trim()
-            };
+            // Ukuran acak gelembung (130px sampai 230px)
+            const size = Math.floor(Math.random() * 100) + 130;
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
 
-            messages.push(newMessage);
-            localStorage.setItem('farewellMessages', JSON.stringify(messages));
-
-            textInput.value = ''; // Kosongkan kolom chat setelah kirim
+            const color = neonColors[Math.floor(Math.random() * neonColors.length)];
             
-            switchScreen('bubbles');
+            bubble.style.background = `rgba(${color.r}, ${color.g}, ${color.b}, 0.15)`;
+            bubble.style.border = `2px solid rgba(${color.r}, ${color.g}, ${color.b}, 0.6)`;
+            bubble.style.boxShadow = `
+                inset 0 20px 30px rgba(255, 255, 255, 0.15),
+                inset 10px 0 30px rgba(0, 0, 0, 0.2),
+                0 0 25px rgba(${color.r}, ${color.g}, ${color.b}, 0.4)
+            `;
+
+            const floatDuration = (Math.random() * 3 + 5).toFixed(1); 
+            const floatDelay = (Math.random() * -5).toFixed(1); 
+            bubble.style.animationDelay = `0s, ${floatDelay}s`;
+            bubble.style.animationDuration = `0.6s, ${floatDuration}s`;
+
+            bubble.innerHTML = `
+                <div class="bubble-text"></div>
+                <div class="bubble-name"></div>
+            `;
+            
+            // Menggunakan textContent agar aman dari XSS script hack
+            bubble.querySelector('.bubble-text').textContent = text;
+            bubble.querySelector('.bubble-name').textContent = `— ${name}`;
+
+            bubble.addEventListener('click', () => {
+                openModal(text, name, color);
+            });
+
+            return bubble;
         }
 
-       function renderBubbles() {
+        function openModal(text, name, color) {
+            modalText.textContent = text;
+            modalName.textContent = `— dikirim oleh ${name}`;
+            
+            const contentBox = modalOverlay.querySelector('.modal-content');
+            contentBox.style.border = `2px solid rgba(${color.r}, ${color.g}, ${color.b}, 0.8)`;
+            contentBox.style.boxShadow = `0 15px 50px rgba(0,0,0,0.5), 0 0 30px rgba(${color.r}, ${color.g}, ${color.b}, 0.3)`;
+            
+            modalOverlay.style.display = 'flex';
+        }
 
-    const container = document.getElementById('screen-bubbles');
+        window.closeModal = function() {
+            modalOverlay.style.display = 'none';
+        }
 
-    // hapus bubble lama
+        // Kirim data ke Firebase Online
+        window.addBubble = function() {
+            const wishInput = document.getElementById('wishInput');
+            const nameInput = document.getElementById('nameInput');
 
-    container.querySelectorAll('.bubble, .empty-text').forEach(el => el.remove());
-
-    if (messages.length === 0) {
-
-        const emptyText = document.createElement('div');
-
-        emptyText.className = "empty-text";
-
-        emptyText.style.position = 'absolute';
-
-        emptyText.style.top = '50%';
-
-        emptyText.style.left = '50%';
-
-        emptyText.style.transform = 'translate(-50%,-50%)';
-
-        emptyText.style.textAlign = 'center';
-
-        emptyText.innerHTML = `
-
-            <h3>Belum ada bubble 🥺</h3>
-
-            <p>Tulis ucapan dulu ya.</p>
-
-        `;
-
-        container.appendChild(emptyText);
-
-        return;
-
-    }
-
-    const width = container.clientWidth;
-
-    const height = container.clientHeight;
-
-    const placed = [];
-
-    messages.forEach(msg => {
-
-        const bubble = document.createElement('div');
-
-        bubble.className = "bubble";
-
-        const size = 110 + Math.random() * 35;
-
-        bubble.style.width = size + "px";
-
-        bubble.style.height = size + "px";
-
-        // cari posisi yang tidak tabrakan
-
-        let x, y, safe = false;
-
-        for(let i=0;i<200;i++){
-
-            x = Math.random() * (width - size - 40) + 20;
-
-            y = Math.random() * (height - size - 120) + 70;
-
-            safe = true;
-
-            for(const p of placed){
-
-                const dx = x - p.x;
-
-                const dy = y - p.y;
-
-                if(Math.sqrt(dx*dx+dy*dy) < (size+p.size)/2 + 20){
-
-                    safe = false;
-
-                    break;
-
-                }
-
+            if (!wishInput.value.trim() || !nameInput.value.trim()) {
+                alert("Tolong isi ucapan dan nama kamu dulu ya!");
+                return;
             }
 
-            if(safe) break;
-
+            push(dbRef, {
+                text: wishInput.value,
+                name: nameInput.value,
+                timestamp: Date.now()
+            }).then(() => {
+                wishInput.value = '';
+                nameInput.value = '';
+            }).catch((error) => {
+                alert("Gagal mengirim ucapan: " + error.message);
+            });
         }
 
-        placed.push({x,y,size});
-
-        bubble.style.left = x + "px";
-
-        bubble.style.top = y + "px";
-
-        bubble.style.animationDuration = (5 + Math.random()*4) + "s";
-
-        bubble.style.animationDelay = "-" + (Math.random()*5) + "s";
-
-        bubble.innerHTML = `
-
-            <div class="bubble-content">
-
-                ${msg.text}
-
-            </div>
-
-        `;
-
-        bubble.onclick = () => openModal(msg.text, msg.sender);
-
-        container.appendChild(bubble);
-
-    });
-
-}
-
-        function openModal(text, sender) {
-            document.getElementById('modalText').innerText = text;
-            document.getElementById('modalSender').innerText = `Dari: ${sender}`;
-            document.getElementById('modalOverlay').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('modalOverlay').classList.remove('active');
-        }
+        // Dengarkan perubahan data di Firebase (Realtime sync)
+        onChildAdded(dbRef, (snapshot) => {
+            const data = snapshot.val();
+            const newBubble = createBubbleElement(data.text, data.name);
+            
+            // Selalu taruh gelembung baru paling depan atas
+            container.insertBefore(newBubble, container.firstChild);
+        });
     </script>
 </body>
 </html>
