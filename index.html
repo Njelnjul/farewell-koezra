@@ -18,9 +18,9 @@
             color: #fff;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 20px 10px 160px 10px; /* Padding bawah ekstra biar gak ketutup input */
+            padding: 20px 10px 220px 10px; /* Jarak bawah ditambah dikit buat space form baru */
             position: relative;
-            -webkit-overflow-scrolling: touch; /* Scroll smooth di iOS */
+            -webkit-overflow-scrolling: touch;
         }
 
         /* Efek bintang luar angkasa */
@@ -39,7 +39,7 @@
             pointer-events: none;
         }
 
-        /* Container Utama - Mengalir ke bawah & otomatis nambah panjang */
+        /* Container Utama */
         .bubbles-container {
             position: relative;
             max-width: 1200px;
@@ -48,7 +48,7 @@
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             z-index: 1;
             padding-bottom: 20px;
         }
@@ -61,7 +61,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 15px;
+            padding: 12px;
             color: #ffffff;
             backdrop-filter: blur(3px);
             position: relative;
@@ -71,7 +71,7 @@
                 inset 5px 0 15px rgba(0, 0, 0, 0.3),
                 inset -5px 0 15px rgba(0, 0, 0, 0.3);
             animation: spawn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, float 6s ease-in-out infinite alternate;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.2s;
             overflow: hidden;
             word-break: break-word;
         }
@@ -83,23 +83,20 @@
         .bubble::after {
             content: "";
             position: absolute;
-            top: 6%;
-            left: 22%;
-            width: 55%;
-            height: 18%;
+            top: 6%; left: 22%;
+            width: 55%; height: 18%;
             background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0));
             border-radius: 50%;
             transform: rotate(-8deg);
             pointer-events: none;
         }
 
-        /* Teks dalam bubble (Preview ringkas) */
         .bubble-text {
             font-weight: 500;
             margin-bottom: 4px;
             width: 100%;
             display: -webkit-box;
-            -webkit-line-clamp: 3; /* Maks 3 baris preview di HP */
+            -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;  
             overflow: hidden;
             text-overflow: ellipsis;
@@ -116,17 +113,17 @@
             text-overflow: ellipsis;
         }
 
-        /* Panel Kontrol Bawah (Fixed & Responsive) */
+        /* Panel Kontrol Bawah Modern */
         .footer-form-panel {
             position: fixed;
             bottom: 0; left: 0; right: 0;
-            background: linear-gradient(transparent, rgba(5, 2, 18, 0.98) 20%);
-            padding: 15px 12px 25px 12px;
+            background: linear-gradient(transparent, rgba(5, 2, 18, 0.98) 25%);
+            padding: 15px 16px 30px 16px;
             z-index: 100;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             align-items: center;
         }
 
@@ -134,45 +131,142 @@
             font-size: 11px;
             color: rgba(255, 255, 255, 0.4);
             text-align: center;
+            letter-spacing: 0.3px;
         }
 
-        .form-container {
-            max-width: 600px;
+        /* Form Card Kontainer (Satu Box Terpadu) */
+        .form-card {
+            max-width: 450px;
             width: 100%;
+            background: rgba(20, 15, 45, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            padding: 12px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
             position: relative;
+        }
+
+        /* Baris Atas: Input Nama Proposional */
+        .name-row {
+            display: flex;
+            justify-content: flex-start;
+            width: 100%;
+        }
+
+        .name-box {
+            width: 55%; /* Tidak full-width, pas untuk nama panggilan */
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 13px;
+            outline: none;
+            padding: 8px 14px;
+            border-radius: 14px;
+            transition: all 0.2s;
+            -webkit-appearance: none;
+        }
+
+        .name-box:focus {
+            border-color: rgba(100, 43, 242, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 10px rgba(100, 43, 242, 0.2);
+        }
+
+        /* Baris Bawah: Jajaran Utama */
+        .action-row {
             display: flex;
             align-items: center;
             gap: 8px;
+            width: 100%;
         }
 
-        /* Tombol Trigger Emoji */
         .emoji-trigger-btn {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
             font-size: 18px;
-            width: 42px;
-            height: 42px;
+            width: 42px; height: 42px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            transition: background 0.2s;
+        }
+
+        .emoji-trigger-btn:active {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .input-main-wrapper {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            padding: 3px 4px 3px 14px;
+            min-width: 0;
             transition: all 0.2s;
         }
 
-        /* Popover Grid 3x5 (Pas di atas tombol di HP) */
+        /* Efek fokus pada wrapper ucapan */
+        .input-main-wrapper:focus-within {
+            border-color: rgba(100, 43, 242, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 10px rgba(100, 43, 242, 0.2);
+        }
+
+        .input-box {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            flex: 1;
+            min-width: 0;
+            height: 36px;
+            -webkit-appearance: none;
+        }
+
+        .input-box::placeholder, .name-box::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .send-btn {
+            background: #642bf2;
+            color: white;
+            border: none;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(100, 43, 242, 0.3);
+            transition: transform 0.1s;
+        }
+
+        .send-btn:active {
+            transform: scale(0.92);
+        }
+
+        /* Popover Grid Emoji */
         .emoji-popover {
             position: absolute;
-            bottom: 52px;
-            left: 0;
+            bottom: 125px;
+            left: 12px;
             background: rgba(18, 12, 42, 0.98);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
             padding: 10px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border-radius: 18px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
             display: none;
             grid-template-columns: repeat(5, 1fr);
             gap: 6px;
@@ -196,65 +290,7 @@
             background: #642bf2;
         }
 
-        /* Wrapper Form Input Utama */
-        .input-fields-wrapper {
-            flex: 1;
-            background: rgba(15, 10, 35, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            padding: 4px 6px 4px 14px;
-            gap: 8px;
-        }
-
-        .input-box {
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-size: 14px;
-            outline: none;
-            flex: 2;
-            min-width: 0;
-        }
-
-        .name-box {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            font-size: 13px;
-            outline: none;
-            padding: 6px 10px;
-            border-radius: 16px;
-            flex: 1;
-            max-width: 85px;
-            min-width: 0;
-            text-align: center;
-        }
-
-        .input-box::placeholder, .name-box::placeholder {
-            color: rgba(255, 255, 255, 0.35);
-        }
-
-        /* Tombol Kirim versi Minimalis Ikon */
-        .send-btn {
-            background: #642bf2;
-            color: white;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: background 0.2s;
-        }
-
-        .send-btn:hover { background: #7a46f7; }
-
-        /* Pop-up modal full detail */
+        /* Pop-up modal detail */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -311,8 +347,8 @@
         }
         @keyframes float {
             0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-6px) rotate(0.5deg); }
-            100% { transform: translateY(6px) rotate(-0.5deg); }
+            50% { transform: translateY(-5px) rotate(0.5deg); }
+            100% { transform: translateY(5px) rotate(-0.5deg); }
         }
         @keyframes scaleUp {
             to { transform: scale(1); }
@@ -326,33 +362,38 @@
     <div class="footer-form-panel">
         <span class="hint-text">💡 Klik bubble untuk membaca tulisan lengkapnya</span>
         
-        <div class="form-container">
-            <button class="emoji-trigger-btn" id="emojiTrigger" onclick="toggleEmojiPopover(event)">😊</button>
-            
-            <div class="emoji-popover" id="emojiPopover" onclick="event.stopPropagation()">
-                <div class="emoji-item" onclick="insertEmoji('😊')">😊</div>
-                <div class="emoji-item" onclick="insertEmoji('✨')">✨</div>
-                <div class="emoji-item" onclick="insertEmoji('😭')">😭</div>
-                <div class="emoji-item" onclick="insertEmoji('❤️')">❤️</div>
-                <div class="emoji-item" onclick="insertEmoji('🚀')">🚀</div>
-                <div class="emoji-item" onclick="insertEmoji('🥳')">🥳</div>
-                <div class="emoji-item" onclick="insertEmoji('🥺')">🥺</div>
-                <div class="emoji-item" onclick="insertEmoji('👍')">👍</div>
-                <div class="emoji-item" onclick="insertEmoji('👏')">👏</div>
-                <div class="emoji-item" onclick="insertEmoji('🎉')">🎉</div>
-                <div class="emoji-item" onclick="insertEmoji('⭐')">⭐</div>
-                <div class="emoji-item" onclick="insertEmoji('🙌')">🙌</div>
-                <div class="emoji-item" onclick="insertEmoji('🔥')">🔥</div>
-                <div class="emoji-item" onclick="insertEmoji('😂')">😂</div>
-                <div class="emoji-item" onclick="insertEmoji('🤣')">🤣</div>
+        <div class="form-card">
+            <div class="name-row">
+                <input type="text" class="name-box" id="nameInput" placeholder="Nama kamu..." required>
             </div>
 
-            <div class="input-fields-wrapper">
-                <input type="text" class="input-box" id="wishInput" placeholder="Tulis ucapan..." required>
-                <input type="text" class="name-box" id="nameInput" placeholder="Nama" required>
-                <button class="send-btn" onclick="addBubble()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                </button>
+            <div class="action-row">
+                <button class="emoji-trigger-btn" id="emojiTrigger" onclick="toggleEmojiPopover(event)">😊</button>
+                
+                <div class="emoji-popover" id="emojiPopover" onclick="event.stopPropagation()">
+                    <div class="emoji-item" onclick="insertEmoji('😊')">😊</div>
+                    <div class="emoji-item" onclick="insertEmoji('✨')">✨</div>
+                    <div class="emoji-item" onclick="insertEmoji('😭')">😭</div>
+                    <div class="emoji-item" onclick="insertEmoji('❤️')">❤️</div>
+                    <div class="emoji-item" onclick="insertEmoji('🚀')">🚀</div>
+                    <div class="emoji-item" onclick="insertEmoji('🥳')">🥳</div>
+                    <div class="emoji-item" onclick="insertEmoji('🥺')">🥺</div>
+                    <div class="emoji-item" onclick="insertEmoji('👍')">👍</div>
+                    <div class="emoji-item" onclick="insertEmoji('👏')">👏</div>
+                    <div class="emoji-item" onclick="insertEmoji('🎉')">🎉</div>
+                    <div class="emoji-item" onclick="insertEmoji('⭐')">⭐</div>
+                    <div class="emoji-item" onclick="insertEmoji('🙌')">🙌</div>
+                    <div class="emoji-item" onclick="insertEmoji('🔥')">🔥</div>
+                    <div class="emoji-item" onclick="insertEmoji('😂')">😂</div>
+                    <div class="emoji-item" onclick="insertEmoji('🤣')">🤣</div>
+                </div>
+
+                <div class="input-main-wrapper">
+                    <input type="text" class="input-box" id="wishInput" placeholder="Tulis ucapan kamu di sini..." required>
+                    <button class="send-btn" onclick="addBubble()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -384,12 +425,12 @@
         const dbRef = ref(db, 'wishes');
 
         const neonColors = [
-            { r: 236, g: 72, b: 153 },  // Pink
-            { r: 59, g: 130, b: 246 },  // Blue
-            { r: 168, g: 85, b: 247 },  // Purple
-            { r: 34, g: 197, b: 94 },   // Green
-            { r: 234, g: 179, b: 8 },   // Yellow
-            { r: 6, g: 182, b: 212 }    // Cyan
+            { r: 236, g: 72, b: 153 },
+            { r: 59, g: 130, b: 246 },
+            { r: 168, g: 85, b: 247 },
+            { r: 34, g: 197, b: 94 },
+            { r: 234, g: 179, b: 8 },
+            { r: 6, g: 182, b: 212 }
         ];
 
         const container = document.getElementById('bubblesContainer');
@@ -426,14 +467,12 @@
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
 
-            // Deteksi ukuran layar HP untuk menyesuaikan diameter balon acak
             const isMobile = window.innerWidth < 600;
-            const size = isMobile ? (Math.floor(Math.random() * 50) + 95) : (Math.floor(Math.random() * 80) + 140);
+            const size = isMobile ? (Math.floor(Math.random() * 30) + 90) : (Math.floor(Math.random() * 50) + 130);
             
             bubble.style.width = `${size}px`;
             bubble.style.height = `${size}px`;
 
-            // Atur responsive font size di dalam balon
             let fontSize = isMobile ? 11 : 13;
             if (text.length > 50) fontSize = isMobile ? 9 : 11;
             bubble.style.fontSize = `${fontSize}px`;
