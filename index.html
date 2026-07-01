@@ -7,8 +7,7 @@
     <style>
         :root {
             --bg-gradient: linear-gradient(135deg, #0f172a, #1e1b4b, #311042);
-            --bubble-color: rgba(255, 255, 255, 0.15);
-            --bubble-border: rgba(255, 255, 255, 0.3);
+            --bubble-border: rgba(255, 255, 255, 0.45);
             --text-color: #f8fafc;
         }
 
@@ -35,37 +34,41 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- NAVIGATION BUTTONS --- */
+        /* --- NAVIGATION --- */
         .nav-container {
             position: absolute;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 10;
+            z-index: 99;
             display: flex;
-            gap: 10px;
+            gap: 12px;
+            width: max-content;
         }
 
         .btn-nav {
-            padding: 10px 20px;
+            padding: 10px 24px;
             border: none;
             border-radius: 20px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .btn-nav.active, .btn-nav:hover {
             background: #fff;
             color: #1e1b4b;
             transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(255,255,255,0.2);
         }
 
-        /* --- SCREEN MANAGEMENT --- */
+        /* --- SCREENS --- */
         .screen {
             position: absolute;
             top: 0;
@@ -74,7 +77,7 @@
             height: 100%;
             display: none;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.3s ease;
         }
 
         .screen.active {
@@ -82,56 +85,61 @@
             opacity: 1;
         }
 
-        /* --- SCREEN 1: FORM INPUT --- */
+        /* --- FORM INPUT --- */
         #screen-form {
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            z-index: 5;
+            z-index: 10;
         }
 
         .form-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 35px;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.15);
             width: 100%;
-            max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-width: 480px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             text-align: center;
         }
 
         .form-card h2 {
-            margin-bottom: 10px;
-            font-size: 24px;
+            margin-bottom: 8px;
+            font-size: 26px;
+            background: linear-gradient(45deg, #ff007f, #7928ca);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .form-card p {
             font-size: 14px;
-            color: #cbd5e1;
-            margin-bottom: 20px;
+            color: #94a3b8;
+            margin-bottom: 25px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             text-align: left;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             font-size: 14px;
             font-weight: 600;
+            color: #cbd5e1;
         }
 
         .form-group input, .form-group textarea {
             width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(0, 0, 0, 0.2);
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0, 0, 0, 0.3);
             color: white;
             font-size: 15px;
             outline: none;
@@ -139,49 +147,58 @@
         }
 
         .form-group input:focus, .form-group textarea:focus {
-            border-color: #a855f7;
-            box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+            border-color: #ec4899;
+            box-shadow: 0 0 12px rgba(236, 72, 153, 0.4);
         }
 
         .btn-submit {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             background: linear-gradient(90deg, #a855f7, #ec4899);
             color: white;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s, opacity 0.2s;
-            margin-top: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 5px;
         }
 
         .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(236, 72, 153, 0.4);
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.4);
         }
 
-        /* --- SCREEN 2: BUBBLES FIELD --- */
-        #screen-bubbles {
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-        }
+        /* --- BUBBLES FIELD --- */
+ #screen-bubbles{
+    position:relative;
+    width:100%;
+    height:100vh;
+    overflow:hidden;
+}
+
+.bubble{
+    position:absolute;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:5;
+}
 
         .bubble-instruction {
             position: absolute;
-            bottom: 30px;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0,0,0,0.4);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 14px;
+            background: rgba(15, 23, 42, 0.7);
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-size: 13px;
             pointer-events: none;
-            backdrop-filter: blur(2px);
-            z-index: 2;
+            backdrop-filter: blur(4px);
+            z-index: 50;
+            border: 1px solid rgba(255,255,255,0.1);
             animation: pulse 2s infinite;
         }
 
@@ -190,54 +207,59 @@
             50% { opacity: 1; }
         }
 
-        /* --- BUBBLE ELEMENTS --- */
+        /* --- REALTIME STABLE FLOATING BUBBLE --- */
         .bubble {
             position: absolute;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 70%);
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.03) 65%, rgba(236, 72, 153, 0.08) 100%);
             border: 1px solid var(--bubble-border);
-            box-shadow: inset -5px -5px 15px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: inset -4px -4px 12px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.25);
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 16px;
             text-align: center;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s;
-            animation: floatUp linear infinite;
+            animation: gentleFloat 6s ease-in-out infinite alternate;
         }
 
         .bubble:hover {
-            transform: scale(1.15);
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.35) 0%, rgba(168, 85, 247, 0.2) 70%);
-            border-color: rgba(168, 85, 247, 0.5);
+            transform: scale(1.12) translateY(-5px) !important;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.45) 0%, rgba(168, 85, 247, 0.25) 70%);
+            border-color: #a855f7;
+            box-shadow: inset -4px -4px 12px rgba(0,0,0,0.15), 0 12px 25px rgba(168, 85, 247, 0.3);
         }
 
-        .bubble-sender {
+        .bubble-content {
             font-size: 11px;
-            font-weight: bold;
-            color: #f1f5f9;
-            text-overflow: ellipsis;
+            line-height: 1.3;
+            color: #ffffff;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Potong teks maksimal 3 baris di dalam bulatannya */
+            -webkit-box-orient: vertical;
             overflow: hidden;
-            white-space: nowrap;
-            max-width: 90%;
+            text-overflow: ellipsis;
             pointer-events: none;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+            font-weight: 500;
+            word-break: break-word;
+            padding: 2px;
         }
 
-        @keyframes floatUp {
+        @keyframes gentleFloat {
             0% {
-                transform: translateY(105vh) translateX(0);
+                transform: translateY(0) translateX(0) rotate(0deg);
             }
             50% {
-                transform: translateY(50vh) translateX(20px);
+                transform: translateY(-15px) translateX(10px) rotate(2deg);
             }
             100% {
-                transform: translateY(-15vh) translateX(-10px);
+                transform: translateY(5px) translateX(-10px) rotate(-2deg);
             }
         }
 
-        /* --- MODAL POPUP (UNTUK LIHAT PESAN) --- */
+        /* --- MODAL POPUP --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -246,10 +268,11 @@
             height: 100%;
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 100;
+            z-index: 999;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
@@ -263,13 +286,13 @@
         .modal-content {
             background: linear-gradient(135deg, #1e1b4b, #311042);
             padding: 35px;
-            border-radius: 25px;
+            border-radius: 24px;
             max-width: 500px;
             width: 90%;
             text-align: center;
-            border: 2px solid rgba(236, 72, 153, 0.3);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            transform: scale(0.8);
+            border: 2px solid rgba(236, 72, 153, 0.4);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+            transform: scale(0.85);
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
         }
@@ -284,11 +307,12 @@
             margin-bottom: 25px;
             white-space: pre-wrap;
             word-wrap: break-word;
+            color: #f1f5f9;
         }
 
         .modal-sender {
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 13px;
+            font-weight: 700;
             color: #ec4899;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -301,11 +325,11 @@
             background: rgba(255,255,255,0.1);
             border: none;
             color: white;
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -317,67 +341,67 @@
 </head>
 <body>
 
-    <!-- Tombol Navigasi Halaman -->
     <div class="nav-container">
         <button class="btn-nav active" onclick="switchScreen('form')">✍️ Tulis Ucapan</button>
-        <button class="btn-nav" onclick="switchScreen('bubbles')">🎈 Lihat Bubbles</button>
+        <button class="btn-nav" onclick="switchScreen('bubbles')">🎈 Halaman Bubbles</button>
     </div>
 
-    <!-- HALAMAN 1: FORM ISIAN -->
     <div id="screen-form" class="screen active">
         <div class="form-card">
-            <h2>Farewell Box For Someone Special ❤️</h2>
-            <p>Tulis pesan terbaikmu di sini. Kamu boleh kirim lebih dari satu kali kok! Biar gelembungnya makin rame.</p>
+            <h2>Farewell Wishes ❤️</h2>
+            <p>Tulis pesan terbaikmu. 1 pesan yang kamu kirim akan menjadi 1 bubble melayang indah.</p>
             
             <form id="messageForm" onsubmit="saveMessage(event)">
                 <div class="form-group">
                     <label for="senderName">Nama Kamu:</label>
-                    <input type="text" id="senderName" placeholder="Contoh: Njel / Bebi / Anonim" required autocomplete="off">
+                    <input type="text" id="senderName" placeholder="Misal: Njel / Sahabatmu" required autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="messageText">Pesan / Ucapan:</label>
-                    <textarea id="messageText" rows="5" placeholder="Tulis semua kenangan manis, doa, atau lucunya kalian di sini..." required></textarea>
+                    <textarea id="messageText" rows="5" placeholder="Ketik ucapan bebas seberapa panjang di sini..." required></textarea>
                 </div>
-                <button type="submit" class="btn-submit">Kirim ke Bubble Field ✨</button>
+                <button type="submit" class="btn-submit">Terbangkan Bubble ✨</button>
             </form>
         </div>
     </div>
 
-    <!-- HALAMAN 2: BUBBLES FIELD -->
     <div id="screen-bubbles" class="screen">
-        <div class="bubble-instruction">Klik salah satu bubble untuk baca pesannya 🤫</div>
-        <!-- Bubbles akan di-generate otomatis di sini pakai JS -->
+        <div class="bubble-instruction">Klik bubble-nya untuk baca versi lengkapnya ya! 🤫</div>
     </div>
 
-    <!-- MODAL POPUP UNTUK LIHAT DETAIL PESAN -->
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="btn-close" onclick="closeModal()">✕</button>
-            <p class="modal-text" id="modalText">Isi ucapan di sini...</p>
+            <p class="modal-text" id="modalText">Isi ucapan...</p>
             <div class="modal-sender" id="modalSender">Dari: Seseorang</div>
         </div>
     </div>
 
     <script>
-        // Ambil data ucapan dari localStorage atau buat array kosong kalau belum ada data
+        // Mengambil memori ucapan yang tersimpan
         let messages = JSON.parse(localStorage.getItem('farewellMessages')) || [];
 
-        // Fungsi pindah halaman
         function switchScreen(screenType) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.screen').forEach(s => {
+                s.classList.remove('active');
+                s.style.display = 'none'; 
+            });
             document.querySelectorAll('.btn-nav').forEach(b => b.classList.remove('active'));
 
             if (screenType === 'form') {
-                document.getElementById('screen-form').classList.add('active');
+                const formScreen = document.getElementById('screen-form');
+                formScreen.style.display = 'flex';
+                setTimeout(() => formScreen.classList.add('active'), 10);
                 document.querySelectorAll('.btn-nav')[0].classList.add('active');
             } else {
-                document.getElementById('screen-bubbles').classList.add('active');
+                const bubbleScreen = document.getElementById('screen-bubbles');
+                bubbleScreen.style.display = 'flex';
+                setTimeout(() => bubbleScreen.classList.add('active'), 10);
                 document.querySelectorAll('.btn-nav')[1].classList.add('active');
-                renderBubbles(); // Re-render bubbles biar posisi dan jumlahnya selalu update
+                renderBubbles(); 
             }
         }
 
-        // Fungsi Simpan Ucapan
         function saveMessage(e) {
             e.preventDefault();
             const nameInput = document.getElementById('senderName');
@@ -392,78 +416,133 @@
             messages.push(newMessage);
             localStorage.setItem('farewellMessages', JSON.stringify(messages));
 
-            // Reset form input tapi nama dikasih tetep ada biar kalau mau input lagi gak repot ngetik nama
-            textInput.value = '';
+            textInput.value = ''; // Kosongkan kolom chat setelah kirim
             
-            alert('Ucapan kamu berhasil diterbangkan! 🎈 Silakan cek di tab "Lihat Bubbles".');
             switchScreen('bubbles');
         }
 
-        // Fungsi buat gelembung melayang
-        function renderBubbles() {
-            const container = document.getElementById('screen-bubbles');
-            
-            // Bersihkan konten bubble lama kecuali instruksi teks di bawah
-            const instruction = container.querySelector('.bubble-instruction');
-            container.innerHTML = '';
-            container.appendChild(instruction);
+       function renderBubbles() {
 
-            if (messages.length === 0) {
-                // Tampilan kalau gelembung masih kosong
-                const emptyText = document.createElement('div');
-                emptyText.style.position = 'absolute';
-                emptyText.style.top = '50%';
-                emptyText.style.left = '50%';
-                emptyText.style.transform = 'translate(-50%, -50%)';
-                emptyText.style.textAlign = 'center';
-                emptyText.innerHTML = '<h3>Belum ada bubble nih. 🥺<br>Yuk, isi ucapan dulu di halaman sebelah!</h3>';
-                container.appendChild(emptyText);
-                return;
+    const container = document.getElementById('screen-bubbles');
+
+    // hapus bubble lama
+
+    container.querySelectorAll('.bubble, .empty-text').forEach(el => el.remove());
+
+    if (messages.length === 0) {
+
+        const emptyText = document.createElement('div');
+
+        emptyText.className = "empty-text";
+
+        emptyText.style.position = 'absolute';
+
+        emptyText.style.top = '50%';
+
+        emptyText.style.left = '50%';
+
+        emptyText.style.transform = 'translate(-50%,-50%)';
+
+        emptyText.style.textAlign = 'center';
+
+        emptyText.innerHTML = `
+
+            <h3>Belum ada bubble 🥺</h3>
+
+            <p>Tulis ucapan dulu ya.</p>
+
+        `;
+
+        container.appendChild(emptyText);
+
+        return;
+
+    }
+
+    const width = container.clientWidth;
+
+    const height = container.clientHeight;
+
+    const placed = [];
+
+    messages.forEach(msg => {
+
+        const bubble = document.createElement('div');
+
+        bubble.className = "bubble";
+
+        const size = 110 + Math.random() * 35;
+
+        bubble.style.width = size + "px";
+
+        bubble.style.height = size + "px";
+
+        // cari posisi yang tidak tabrakan
+
+        let x, y, safe = false;
+
+        for(let i=0;i<200;i++){
+
+            x = Math.random() * (width - size - 40) + 20;
+
+            y = Math.random() * (height - size - 120) + 70;
+
+            safe = true;
+
+            for(const p of placed){
+
+                const dx = x - p.x;
+
+                const dy = y - p.y;
+
+                if(Math.sqrt(dx*dx+dy*dy) < (size+p.size)/2 + 20){
+
+                    safe = false;
+
+                    break;
+
+                }
+
             }
 
-            // Loop setiap data ucapan buat dijadiin bubble
-            messages.forEach((msg) => {
-                const bubble = document.createElement('div');
-                bubble.classList.add('bubble');
+            if(safe) break;
 
-                // Set ukuran bubble acak antara 80px sampai 140px biar dinamis dan lucu
-                const size = Math.floor(Math.random() * 60) + 80;
-                bubble.style.width = `${size}px`;
-                bubble.style.height = `${size}px`;
-
-                // Set posisi horizontal acak (0% - 90%)
-                bubble.style.left = `${Math.random() * 90}%`;
-
-                // Set durasi melayang acak biar gak barengan naiknya (8s - 18s)
-                const duration = Math.random() * 10 + 8;
-                bubble.style.animationDuration = `${duration}s`;
-
-                // Set delay acak biar munculnya gantian
-                bubble.style.animationDelay = `-${Math.random() * duration}s`;
-
-                // Isi bubble pake inisial / nama pengirim singkat
-                const senderLabel = document.createElement('span');
-                senderLabel.classList.add('bubble-sender');
-                senderLabel.innerText = msg.sender;
-                bubble.appendChild(senderLabel);
-
-                // Efek klik untuk buka isi ucapan lengkap
-                bubble.addEventListener('click', () => {
-                    openModal(msg.text, msg.sender);
-                });
-
-                container.appendChild(bubble);
-            });
         }
 
-        // Fungsi Buka Modal Detail Pesan
+        placed.push({x,y,size});
+
+        bubble.style.left = x + "px";
+
+        bubble.style.top = y + "px";
+
+        bubble.style.animationDuration = (5 + Math.random()*4) + "s";
+
+        bubble.style.animationDelay = "-" + (Math.random()*5) + "s";
+
+        bubble.innerHTML = `
+
+            <div class="bubble-content">
+
+                ${msg.text}
+
+            </div>
+
+        `;
+
+        bubble.onclick = () => openModal(msg.text, msg.sender);
+
+        container.appendChild(bubble);
+
+    });
+
+}
+
         function openModal(text, sender) {
             document.getElementById('modalText').innerText = text;
             document.getElementById('modalSender').innerText = `Dari: ${sender}`;
             document.getElementById('modalOverlay').classList.add('active');
         }
 
-        // Fungsi Tutup Modal
         function closeModal() {
             document.getElementById('modalOverlay').classList.remove('active');
         }
