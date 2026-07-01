@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Farewell Ko Gus</title>
+    <title>Farewell Bubbles Wish - Live</title>
     <style>
         * {
             box-sizing: border-box;
@@ -23,7 +23,6 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* Efek bintang luar angkasa */
         body::before {
             content: "";
             position: absolute;
@@ -39,7 +38,6 @@
             pointer-events: none;
         }
 
-        /* Container Utama */
         .bubbles-container {
             position: relative;
             max-width: 1200px;
@@ -50,10 +48,10 @@
             align-items: center;
             gap: 12px;
             z-index: 1;
-            padding-bottom: 200px; /* Jarak agar bubble tidak tertutup form footer */
+            padding-bottom: 200px;
         }
 
-        /* Styling Bubble Glossy Mobile Friendly */
+        /* Styling Bubble */
         .bubble {
             border-radius: 50%;
             display: flex;
@@ -107,10 +105,34 @@
             font-size: 9px;
             opacity: 0.7;
             font-style: italic;
-            max-width: 90%;
+            max-width: 80%;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        /* Tombol Hapus khusus di Bubble Milik Sendiri */
+        .delete-bubble-btn {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: rgba(255, 59, 48, 0.2);
+            border: 1px solid rgba(255, 59, 48, 0.4);
+            color: #ff453a;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.2s;
+        }
+
+        .delete-bubble-btn:hover {
+            background: rgba(255, 59, 48, 0.4);
         }
 
         /* Panel Kontrol Bawah Modern */
@@ -134,7 +156,6 @@
             letter-spacing: 0.3px;
         }
 
-        /* Form Card Kontainer */
         .form-card {
             max-width: 450px;
             width: 100%;
@@ -148,13 +169,12 @@
             gap: 10px;
         }
 
-        /* Baris Atas: Input Nama Sejajar dengan Baris Bawah */
         .name-row {
             width: 100%;
         }
 
         .name-box {
-            width: 100%; /* Dibuat full sesuai lebar card agar simetris */
+            width: 100%;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #fff;
@@ -172,7 +192,6 @@
             box-shadow: 0 0 10px rgba(100, 43, 242, 0.2);
         }
 
-        /* Baris Bawah: Input Ucapan + Kirim */
         .action-row {
             display: flex;
             align-items: center;
@@ -233,7 +252,7 @@
             transform: scale(0.92);
         }
 
-        /* Pop-up modal detail */
+        /* Modal Overlay */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -283,7 +302,6 @@
             cursor: pointer;
         }
 
-        /* Keyframes */
         @keyframes spawn {
             0% { transform: scale(0); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
@@ -306,12 +324,10 @@
         <span class="hint-text">💡 Klik bubble untuk membaca tulisan lengkapnya</span>
         
         <div class="form-card">
-            <!-- Baris Nama (Full Width sejajar baris bawah) -->
             <div class="name-row">
                 <input type="text" class="name-box" id="nameInput" placeholder="Nama kamu..." required>
             </div>
 
-            <!-- Baris Utama (Ucapan + Kirim) -->
             <div class="action-row">
                 <div class="input-main-wrapper">
                     <input type="text" class="input-box" id="wishInput" placeholder="Tulis ucapan kamu di sini..." required>
@@ -333,7 +349,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, push, remove, onChildAdded, onChildRemoved } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDwwunkJ6Ox1zKnEaPmuVz81LbeKLHnx1U",
@@ -363,6 +379,19 @@
         const modalText = document.getElementById('modalText');
         const modalName = document.getElementById('modalName');
 
+        // Fungsi untuk ambil daftar ID ucapan yang dibuat di HP ini
+        function getMyWishIds() {
+            const saved = localStorage.getItem('my_wishes');
+            return saved ? JSON.parse(saved) : [];
+        }
+
+        // Fungsi untuk simpan ID ucapan baru ke HP ini
+        function saveMyWishId(id) {
+            const ids = getMyWishIds();
+            ids.push(id);
+            localStorage.setItem('my_wishes', JSON.stringify(ids));
+        }
+
         function getColorFromString(str) {
             let hash = 0;
             for (let i = 0; i < str.length; i++) {
@@ -372,9 +401,10 @@
             return neonColors[index];
         }
 
-        function createBubbleElement(text, name) {
+        function createBubbleElement(id, text, name) {
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
+            bubble.setAttribute('data-id', id); // Tandai elemen dengan ID Firebase-nya
 
             const isMobile = window.innerWidth < 600;
             const size = isMobile ? (Math.floor(Math.random() * 30) + 90) : (Math.floor(Math.random() * 50) + 130);
@@ -409,6 +439,24 @@
             bubble.querySelector('.bubble-text').textContent = text;
             bubble.querySelector('.bubble-name').textContent = `— ${name}`;
 
+            // CEK PEMILIK: Kalau ID ucapan terdaftar di localStorage HP ini, tambahkan tombol hapus
+            const myWishes = getMyWishIds();
+            if (myWishes.includes(id)) {
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-bubble-btn';
+                deleteBtn.innerHTML = '&times;';
+                deleteBtn.title = 'Hapus ucapan saya';
+                
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Biar gak ikutan memicu openModal()
+                    if (confirm("Hapus ucapan ini secara permanen?")) {
+                        const wishRef = ref(db, `wishes/${id}`);
+                        remove(wishRef).catch((err) => alert("Gagal menghapus: " + err.message));
+                    }
+                });
+                bubble.appendChild(deleteBtn);
+            }
+
             bubble.addEventListener('click', () => {
                 openModal(text, name, color);
             });
@@ -440,11 +488,18 @@
                 return;
             }
 
-            push(dbRef, {
+            // Push ke Firebase
+            const newWishRef = push(dbRef);
+            const wishId = newWishRef.key; // Dapatkan ID unik otomatis dari Firebase
+
+            newWishRef.set({
                 text: wishInput.value,
                 name: nameInput.value,
                 timestamp: Date.now()
             }).then(() => {
+                // Simpan ID ini ke localStorage HP si pengirim
+                saveMyWishId(wishId);
+
                 wishInput.value = '';
                 nameInput.value = '';
             }).catch((error) => {
@@ -452,10 +507,23 @@
             });
         }
 
+        // Ketika ada ucapan baru masuk (baik milik sendiri atau orang lain)
         onChildAdded(dbRef, (snapshot) => {
+            const id = snapshot.key;
             const data = snapshot.val();
-            const newBubble = createBubbleElement(data.text, data.name);
+            const newBubble = createBubbleElement(id, data.text, data.name);
             container.insertBefore(newBubble, container.firstChild);
+        });
+
+        // Event listener saat ucapan dihapus dari database (live update di semua device)
+        onChildRemoved(dbRef, (snapshot) => {
+            const targetId = snapshot.key;
+            const elementToRemove = container.querySelector(`[data-id="${targetId}"]`);
+            if (elementToRemove) {
+                elementToRemove.style.transform = 'scale(0)';
+                elementToRemove.style.opacity = '0';
+                setTimeout(() => elementToRemove.remove(), 200);
+            }
         });
     </script>
 </body>
